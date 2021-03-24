@@ -1,12 +1,20 @@
+# Flask App: This app serves two purposes:
+# 1.) Serve html and javascript files to the user. 
+# 2.) Query the remote database and deliver JSON data 
+#     for our javascript files to interact with
+
 from flask import Flask, jsonify, render_template
 from sqlalchemy import create_engine, desc, func
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
 import pandas as pd
 
-# sql setup
+# SQL setup
+
+# Connect to remote sql database
 engine = create_engine('postgresql://football:1234@134.209.211.173/football')
 
+# ORM setup
 Base = automap_base()
 Base.prepare(engine,reflect=True)
 Session = sessionmaker()
@@ -21,6 +29,7 @@ Combine = Base.classes.combine
 # Flask routes
 app = Flask(__name__)
 
+# Basic player info
 @app.route('/id/<player>')
 def playerName(player):
     sesh = Session()
@@ -44,6 +53,7 @@ def playerName(player):
     sesh.close()
     return jsonify(output)
 
+# Aggregate statistics by position
 @app.route('/position/<pos>/<stats>')
 def byPosition(pos, stats):
     statList = stats.split('&')
@@ -85,6 +95,7 @@ def byPosition(pos, stats):
 
     return jsonify(output)
 
+# Aggregate statistics by year
 @app.route('/year/<year>/<stats>')
 def byYear(year, stats):
     statList = stats.split('&')
@@ -123,6 +134,8 @@ def byYear(year, stats):
     sesh.close()
 
     return jsonify(output)
+
+# Test html output 
 @app.route('/')
 def home():
     return render_template('index.html')
