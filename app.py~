@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import pandas as pd
 
 # sql setup
-engine = create_engine('postgresql://football:1234@134.209.211.173/football')
+engine = create_engine('postgresql://football:7258@localhost/football')
 
 Base = automap_base()
 Base.prepare(engine,reflect=True)
