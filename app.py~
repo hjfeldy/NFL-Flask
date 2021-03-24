@@ -198,6 +198,11 @@ def bySchool(school, stats):
                     .filter(Info.player_id in ids)\
                     .statement, sesh.bind)
 
+    cols = list(statDf.columns)
+    newCols = []
+    for col in cols:
+        newCols.append(col.lower())
+    statDf.columns = newCols
     output = {'Avg': {},
               'Max': {},
               'Min': {}}
