@@ -170,50 +170,50 @@ def byYear(year, stats):
     return jsonify(output)
 
 # Aggregate statistics by School
-@app.route('/school/<school>/<stats>')
-def bySchool(school, stats):
-    statList = stats.split('&')
-    for i in range(len(statList)):
-        statList[i] = statList[i].lower()
-    sesh = Session()
-    df = pd.read_sql(sesh.query(College)\
-            .filter(College.School == school)\
-            .statement, sesh.bind)
-    ids = list(df['player_id'])
-
-    statDf = pd.read_sql(sesh.query(Info.player_id,
-                                Info.Height,
-                                Info.Weight,
-                                Info.Year,
-                                Combine.Vertical,
-                                Combine.Forty_Yard,
-                                Combine.Bench,
-                                Combine.Broad_Jump,
-                                Combine.Three_Cone,
-                                Combine.Shuttle,
-                                Draft.Round,
-                                Draft.Pick_No)\
-                    .join(Draft, Info.player_id == Draft.player_id)\
-                    .join(Combine, Info.player_id == Combine.player_id)\
-                    .filter(Info.player_id in ids)\
-                    .statement, sesh.bind)
-
-    cols = list(statDf.columns)
-    newCols = []
-    for col in cols:
-        newCols.append(col.lower())
-    statDf.columns = newCols
-    output = {'Avg': {},
-              'Max': {},
-              'Min': {}}
-    for stat in statList:
-        output['Avg'][stat] = statDf[stat].mean()
-        output['Max'][stat] = statDf[stat].max()
-        output['Min'][stat] = statDf[stat].min()
-    
-    sesh.close()
-    print(output)
-    return jsonify(output)
+#@app.route('/school/<school>/<stats>')
+#def bySchool(school, stats):
+#    statList = stats.split('&')
+#    for i in range(len(statList)):
+#        statList[i] = statList[i].lower()
+#    sesh = Session()
+#    df = pd.read_sql(sesh.query(College)\
+#            .filter(College.School == school)\
+#            .statement, sesh.bind)
+#    ids = list(df['player_id'])
+#
+#    statDf = pd.read_sql(sesh.query(Info.player_id,
+#                                Info.Height,
+#                                Info.Weight,
+#                                Info.Year,
+#                                Combine.Vertical,
+#                                Combine.Forty_Yard,
+#                                Combine.Bench,
+#                                Combine.Broad_Jump,
+#                                Combine.Three_Cone,
+#                                Combine.Shuttle,
+#                                Draft.Round,
+#                                Draft.Pick_No)\
+#                    .join(Draft, Info.player_id == Draft.player_id)\
+#                    .join(Combine, Info.player_id == Combine.player_id)\
+#                    .filter(Info.player_id in ids)\
+#                    .statement, sesh.bind)
+#
+#    cols = list(statDf.columns)
+#    newCols = []
+#    for col in cols:
+#        newCols.append(col.lower())
+#    statDf.columns = newCols
+#    output = {'Avg': {},
+#              'Max': {},
+#              'Min': {}}
+#    for stat in statList:
+#        output['Avg'][stat] = statDf[stat].mean()
+#        output['Max'][stat] = statDf[stat].max()
+#        output['Min'][stat] = statDf[stat].min()
+#    
+#    sesh.close()
+#    print(output)
+#    return jsonify(output)
 # Test html output 
 @app.route('/')
 def home():
