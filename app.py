@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from sqlalchemy import create_engine, desc, func
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import sessionmaker
@@ -123,6 +123,9 @@ def byYear(year, stats):
     sesh.close()
 
     return jsonify(output)
+@app.route('/')
+def home():
+    return render_template('index.html')
 if __name__ == '__main__':
     app.run(debug=True)
 
