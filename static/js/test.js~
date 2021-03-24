@@ -11,21 +11,21 @@
 // Aggregate data by year:
 // Format - /year/<desired-year>/stat1&stat2&stat3...
 d3.json('/year/2016/three_cone&forty_yard').then(function(data) {
-	console.log('2016 results for the three-cone and the 40-yard:');
+	console.log('2016 average results for the three-cone and the 40-yard:');
 	console.log(data)
 })
 
 // Aggregate data by position:
 // Format - /position/<desired-position>/stat1&stat2&stat3...
 d3.json('/position/TE/height&weight').then(function(data) {
-	console.log('Average height and weight of tight ends:');
+	console.log('Height and Weight statistics of tight ends:');
 	console.log(data)
 })
 
 // Player-specific data:
 // Format - /id/<player-name>
 
-d3.json('/id/Medhi Abdesmad').then(function(data) {
+d3.json('/id/"Medhi Abdesmad"').then(function(data) {
 	console.log('Mehdi Abdesmad statistics:');
 	console.log(data)
 })
