@@ -1,0 +1,44 @@
+This is just a proof-of-concept prototype. I will add more routes. Feel
+free to make requests
+
+BASE URL: https://nfl-flask.herokuapp.com
+
+USAGE:
+
+	1.) Stats by position:
+	
+	/position/<desired-position>/stat1&stat2&stat3...
+	
+	example: Get summary statistics for height and weight of tight-ends
+	'https://nfl-flask.herokuapp.com/position/TE/height&weight'
+	
+	result: a JSON object containing the min, max, and avg height and weight for tight ends
+------------------------------------------------------------------------------------------------------------------------
+	
+	2.) Stats by year
+	
+	/year/<desired-year>/stat1&stat2&stat3...	
+	
+	example: Get summary statistics for forty_yard and three_cone in the year 2016
+	
+	'https://nfl-flask.herokuapp.com/year/2016/three_cone&forty_yard'
+	
+	result: a JSON object containing the min, max, and avg height and 
+	weight for all players in 2016
+
+
+------------------------------------------------------------------------------------------------------------------------
+	
+	3.) Player stats
+	
+	/id/<player-name>
+	
+	example: get Mehdi Abdesmad's stats
+
+	'https://nfl-flask.herokuapp.com/id/Mehdi Abdesmad'
+
+	result: a JSON object of the player's stats
+
+NOTE:
+player names are case-sensitive, but I will change that when I next get the
+chance. When you list the stats (ie. height&weight&three_cone), that is case-insensitive.

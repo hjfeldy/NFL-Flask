@@ -70,6 +70,8 @@ def byPosition(pos, stats):
     newCols = []
     for col in cols:
         newCols.append(col.lower())
+    print(cols)
+    print(newCols)
     df.columns = newCols
     print(df[statList])
     output = {'Avg': {},
