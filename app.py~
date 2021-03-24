@@ -25,6 +25,7 @@ Players = Base.classes.player
 Draft = Base.classes.draft
 College = Base.classes.college
 Combine = Base.classes.combine
+Teams = Base.classes.teams
 
 # Flask routes
 app = Flask(__name__)
@@ -33,21 +34,44 @@ app = Flask(__name__)
 @app.route('/id/<player>')
 def playerName(player):
     sesh = Session()
+    # Get player id
     playerID = sesh.query(Players.player_id)\
                .filter(Players.name == player)\
                .one()[0]
+    # General info
     pos, height, year, weight = sesh.query(Info.position,
                                     Info.Height,
                                     Info.Year,
                                     Info.Weight)\
                           .filter(Info.player_id == playerID)\
                           .one()
+    
+    # School info
+    school = sesh.query(College.School)\
+                .filter(College.player_id == playerID)\
+                .one()[0]
+    
+    # Draft info
+    Round, pick_no = sesh.query(Draft.Round,
+                                Draft.Pick_No)\
+                    .filter(Draft.player_id == playerID)\
+                    .one()
+
+    # Team
+    team = sesh.query(Teams.NFL_Team)\
+                .filter(Teams.player_id == playerID)\
+                .one()[0]
+
     output = {'playerID': playerID, 
               'name': player,
               'year':year,
               'position': pos,
               'height': height,
-              'weight': weight}
+              'weight': weight,
+              'school': school,
+              'draft_round': Round,
+              'pick_no':pick_no,
+              'team': team}
 
 
     sesh.close()

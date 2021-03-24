@@ -47,21 +47,31 @@ def playerName(player):
                           .one()
     
     # School info
-    school = sesh.query(College.School)\
-                .filter(College.player_id == playerID)\
+    try:    
+        school = sesh.query(College.School)\
+                    .filter(College.player_id == playerID)\
                 .one()[0]
-    
+    except:
+        school = None
+
     # Draft info
-    Round, pick_no = sesh.query(Draft.Round,
+    try:
+        Round, pick_no = sesh.query(Draft.Round,
                                 Draft.Pick_No)\
                     .filter(Draft.player_id == playerID)\
                     .one()
+    except:
+        Round, pick_no = None, None
 
     # Team
-    team = sesh.query(Teams.NFL_Team)\
+    try:
+        team = sesh.query(Teams.NFL_Team)\
                 .filter(Teams.player_id == playerID)\
                 .one()[0]
+    except:
+        team = None
 
+    # JSON object outpu
     output = {'playerID': playerID, 
               'name': player,
               'year':year,
