@@ -212,6 +212,7 @@ def bySchool(school, stats):
         output['Min'][stat] = statDf[stat].min()
     
     sesh.close()
+    print(output)
     return jsonify(output)
 # Test html output 
 @app.route('/')
