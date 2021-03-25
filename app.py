@@ -88,50 +88,50 @@ def playerName(player):
     return jsonify(output)
 
 # Aggregate statistics by position
-@app.route('/position/<pos>/<stats>')
-def byPosition(pos, stats):
-    statList = stats.split('&')
-    for i in range(len(statList)):
-        statList[i] = statList[i].lower()
-    sesh = Session()
-    df = pd.read_sql(sesh.query(Info.player_id,
-                                Info.Height,
-                                Info.Weight,
-                                Info.Year,
-                                Combine.Vertical,
-                                Combine.Forty_Yard,
-                                Combine.Bench,
-                                Combine.Broad_Jump,
-                                Combine.Three_Cone,
-                                Combine.Shuttle,
-                                Draft.Round,
-                                Draft.Pick_No)\
-                    .join(Draft, Info.player_id == Draft.player_id)\
-                    .join(Combine, Info.player_id == Combine.player_id)\
-                    .filter(Info.position == pos)\
-                    .statement, sesh.bind)
-    cols = list(df.columns)
-    newCols = []
-    for col in cols:
-        newCols.append(col.lower())
-    print(cols)
-    print(newCols)
-    df.columns = newCols
-    print(df[statList])
-    output = {'Avg': {},
-              'Max': {},
-              'Min': {}}
-    for stat in statList:
-        output['Avg'][stat] = df[stat].mean()
-        output['Max'][stat] = df[stat].max()
-        output['Min'][stat] = df[stat].min()
-    sesh.close()
-
-    return jsonify(output)
-
+#@app.route('/position/<pos>/<stats>')
+#def byPosition(pos, stats):
+#    statList = stats.split('&')
+#    for i in range(len(statList)):
+#        statList[i] = statList[i].lower()
+#    sesh = Session()
+#    df = pd.read_sql(sesh.query(Info.player_id,
+#                                Info.Height,
+#                                Info.Weight,
+#                                Info.Year,
+#                                Combine.Vertical,
+#                                Combine.Forty_Yard,
+#                                Combine.Bench,
+#                                Combine.Broad_Jump,
+#                                Combine.Three_Cone,
+#                                Combine.Shuttle,
+#                                Draft.Round,
+#                                Draft.Pick_No)\
+#                    .join(Draft, Info.player_id == Draft.player_id)\
+#                    .join(Combine, Info.player_id == Combine.player_id)\
+#                    .filter(Info.position == pos)\
+#                    .statement, sesh.bind)
+#    cols = list(df.columns)
+#    newCols = []
+#    for col in cols:
+#        newCols.append(col.lower())
+#    print(cols)
+#    print(newCols)
+#    df.columns = newCols
+#    print(df[statList])
+#    output = {'Avg': {},
+#              'Max': {},
+#              'Min': {}}
+#    for stat in statList:
+#        output['Avg'][stat] = df[stat].mean()
+#        output['Max'][stat] = df[stat].max()
+#        output['Min'][stat] = df[stat].min()
+#    sesh.close()
+#
+#    return jsonify(output)
+#
 # Aggregate statistics by year
-@app.route('/year/<year>/<stats>')
-def byYear(year, stats):
+@app.route('/stats/<pos>/<year>/<stats>')
+def byYear(pos, year, stats):
     statList = stats.split('&')
     for i in range(len(statList)):
         statList[i] = statList[i].lower()
@@ -151,6 +151,7 @@ def byYear(year, stats):
                     .join(Draft, Info.player_id == Draft.player_id)\
                     .join(Combine, Info.player_id == Combine.player_id)\
                     .filter(Info.Year == year)\
+                    .filter(Info.position == pos)\
                     .statement, sesh.bind)
     cols = list(df.columns)
     newCols = []

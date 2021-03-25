@@ -1,0 +1,12 @@
+# number of players by round and position and filter by year (ALL) 
+group by position and filter by round and year (must choose a year)
+
+2
+x axis years
+y number of players
+filter position - see trend
+
+3
+x axis combine events
+y axis - value
+filter by year AND combine event
